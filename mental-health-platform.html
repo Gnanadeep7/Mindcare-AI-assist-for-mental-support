@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindCare - Mental Health Support Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #10b981;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f9fafb;
+            --white: #ffffff;
+            --border: #e5e7eb;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: opacity 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            color: var(--text);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+            color: var(--text);
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+        }
+
+        .resources-section {
+            background: var(--white);
+            padding: 4rem 2rem;
+        }
+
+        .resource-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .resource-category {
+            background: var(--bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .resource-category:hover {
+            background: var(--white);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .resource-category h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .counselor-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+            padding: 4rem 2rem;
+        }
+
+        .counselor-connect {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .privacy-notice {
+            background: #eff6ff;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .privacy-notice p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: start;
+            gap: 0.5rem;
+        }
+
+        .emergency-banner {
+            background: #fef2f2;
+            border: 2px solid var(--danger);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .emergency-banner h3 {
+            color: var(--danger);
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-banner p {
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .emergency-numbers {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .emergency-number {
+            background: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .footer {
+            background: var(--text);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--primary-dark);
+                padding: 1rem 2rem;
+                gap: 1rem;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .counselor-connect {
+                padding: 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <span>🧠</span> MindCare
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#connect">Connect</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>You're Not Alone in This Journey</h1>
+            <p>Access confidential support, educational resources, and connect with licensed counselors who care about your mental wellbeing.</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="scrollToSection('connect')">Connect with a Counselor</button>
+                <button class="btn btn-secondary" onclick="scrollToSection('resources')">Explore Resources</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">How We Support You</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Private & Secure</h3>
+                <p>All conversations are confidential and protected with industry-standard encryption. Your privacy is our priority.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">👥</div>
+                <h3>Licensed Counselors</h3>
+                <p>Connect with experienced, licensed mental health professionals who are here to listen and support you.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Educational Resources</h3>
+                <p>Access evidence-based information, coping strategies, and self-help tools to support your mental health journey.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Friendly</h3>
+                <p>Get support anytime, anywhere. Our platform is fully responsive and accessible on all devices.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌟</div>
+                <h3>Stigma-Free Zone</h3>
+                <p>We believe mental health matters. Seeking help is a sign of strength, and everyone deserves support.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⏰</div>
+                <h3>Flexible Support</h3>
+                <p>Choose the support that works for you, from immediate crisis help to scheduled counseling sessions.</p>
+            </div>
+        </div>
+    </div>
+
+    <section class="resources-section" id="resources">
+        <div class="container">
+            <h2 class="section-title">Mental Health Resources</h2>
+            <div class="resource-categories">
+                <div class="resource-category" onclick="openResourceModal('anxiety')">
+                    <h3>Anxiety Management</h3>
+                    <p>Learn techniques to manage anxiety and reduce stress in daily life.</p>
+                </div>
+                <div class="resource-category" onclick="openResourceModal('depression')">
+                    <h3>Understanding Depression</h3>
+                    <p>Information and support for recognizing and coping with depression.</p>
+                </div>
+                <div class="resource-category" onclick="openResourceModal('stress')">
+                    <h3>Stress Relief</h3>
+                    <p>Practical strategies for managing stress and building resilience.</p>
+                </div>
+                <div class="resource-category" onclick="openResourceModal('mindfulness')">
+                    <h3>Mindfulness & Meditation</h3>
+                    <p>Guided practices to increase awareness and emotional regulation.</p>
+                </div>
+                <div class="resource-category" onclick="openResourceModal('sleep')">
+                    <h3>Sleep Hygiene</h3>
+                    <p>Tips for improving sleep quality and establishing healthy routines.</p>
+                </div>
+                <div class="resource-category" onclick="openResourceModal('relationships')">
+                    <h3>Healthy Relationships</h3>
+                    <p>Building and maintaining supportive connections with others.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="counselor-section" id="connect">
+        <div class="container">
+            <h2 class="section-title">Connect with a Licensed Counselor</h2>
+            
+            <div class="counselor-connect">
+                <div class="emergency-banner">
+                    <h3>⚠️ Crisis Support</h3>
+                    <p>If you're in immediate danger or experiencing a mental health emergency, please contact:</p>
+                    <div class="emergency-numbers">
+                        <div class="emergency-number">📞 988 - Suicide & Crisis Lifeline</div>
+                        <div class="emergency-number">📞 911 - Emergency Services</div>
+                    </div>
+                </div>
+
+                <div class="privacy-notice">
+                    <p><strong>🔒 Your Privacy Matters:</strong> All information shared is confidential and protected under HIPAA regulations. Our secure platform ensures your conversations remain private.</p>
+                </div>
+
+                <div class="success-message" id="successMessage">
+                    ✓ Thank you for reaching out! A counselor will contact you within 24 hours.
+                </div>
+
+                <form id="counselorForm">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" required placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" placeholder="(123) 456-7890">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="concern">Primary Concern *</label>
+                        <select id="concern" required>
+                            <option value="">Select a category</option>
+                            <option value="anxiety">Anxiety</option>
+                            <option value="depression">Depression</option>
+                            <option value="stress">Stress Management</option>
+                            <option value="relationships">Relationships</option>
+                            <option value="trauma">Trauma/PTSD</option>
+                            <option value="grief">Grief/Loss</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Tell us more (Optional)</label>
+                        <textarea id="message" placeholder="Share what's on your mind. This helps us match you with the right counselor."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="availability">Preferred Contact Time *</label>
+                        <select id="availability" required>
+                            <option value="">Select your preference</option>
+                            <option value="morning">Morning (8am - 12pm)</option>
+                            <option value="afternoon">Afternoon (12pm - 5pm)</option>
+                            <option value="evening">Evening (5pm - 9pm)</option>
+                            <option value="flexible">Flexible</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section class="container" id="about">
+        <h2 class="section-title">About MindCare</h2>
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <p style="font-size: 1.1rem; color: var(--text-light); line-height: 1.8;">
+                MindCare is dedicated to making mental health support accessible, affordable, and stigma-free. We believe that everyone deserves access to quality mental health care, and we're here to provide a safe, confidential space where you can find the support you need. Our platform connects you with licensed professionals and evidence-based resources to support your mental wellness journey.
+            </p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#privacy">Privacy Policy</a>
+            <a href="#terms">Terms of Service</a>
+            <a href="#crisis">Crisis Resources</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+        <p>&copy; 2024 MindCare. All rights reserved. | Supporting mental wellness, one conversation at a time.</p>
+    </footer>
+
+    <div class="modal" id="resourceModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navLinks = document.getElementById('navLinks');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Smooth scrolling
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form submission
+        document.getElementById('counselorForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Simulate form submission
+            const successMsg = document.getElementById('successMessage');
+            successMsg.classList.add('show');
+            
+            // Reset form
+            e.target.reset();
+            
+            // Scroll to success message
+            successMsg.scrollIntoView({ behavior: 'smooth' });
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classList.remove('show');
+            }, 5000);
+        });
+
+        // Resource modal
+        const resourceContent = {
+            anxiety: {
+                title: 'Managing Anxiety',
+                content: `
+                    <h3>Understanding Anxiety</h3>
+                    <p>Anxiety is a normal response to stress, but when it becomes overwhelming, it can interfere with daily life.</p>
+                    
+                    <h4>Common Techniques:</h4>
+                    <ul>
+                        <li><strong>Deep Breathing:</strong> Practice 4-7-8 breathing (inhale 4 counts, hold 7, exhale 8)</li>
+                        <li><strong>Grounding Exercises:</strong> Use the 5-4-3-2-1 technique to stay present</li>
+                        <li><strong>Progressive Muscle Relaxation:</strong> Tense and release muscle groups</li>
+                        <li><strong>Regular Exercise:</strong> Physical activity reduces anxiety symptoms</li>
+                        <li><strong>Limit Caffeine:</strong> Reduce stimulants that can increase anxiety</li>
+                    </ul>
+                    
+                    <p><strong>When to Seek Help:</strong> If anxiety interferes with daily activities, relationships, or quality of life, professional support can make a significant difference.</p>
+                `
+            },
+            depression: {
+                title: 'Understanding Depression',
+                content: `
+                    <h3>Recognizing Depression</h3>
+                    <p>Depression is more than feeling sad. It's a medical condition that affects mood, thoughts, and physical health.</p>
+                    
+                    <h4>Common Signs:</h4>
+                    <ul>
+                        <li>Persistent sad, empty, or hopeless feelings</li>
+                        <li>Loss of interest in activities once enjoyed</li>
+                        <li>Changes in sleep or appetite</li>
+                        <li>Difficulty concentrating or making decisions</li>
+                        <li>Fatigue or decreased energy</li>
+                    </ul>
+                    
+                    <h4>Self-Help Strategies:</h4>
+                    <ul>
+                        <li><strong>Stay Connected:</strong> Reach out to supportive friends and family</li>
+                        <li><strong>Maintain Routine:</strong> Structure provides stability</li>
+                        <li><strong>Physical Activity:</strong> Even short walks can improve mood</li>
+                        <li><strong>Healthy Sleep:</strong> Aim for consistent sleep schedule</li>
+                    </ul>
+                    
+                    <p><strong>Remember:</strong> Depression is treatable. Professional help through therapy and/or medication can be very effective.</p>
+                `
+            },
+            stress: {
+                title: 'Stress Management',
+                content: `
+                    <h3>Managing Stress Effectively</h3>
+                    <p>Stress is a natural part of life, but chronic stress can impact mental and physical health.</p>
+                    
+                    <h4>Quick Stress Relief:</h4>
+                    <ul>
+                        <li><strong>Take a Break:</strong> Step away from stressors for 5-10 minutes</li>
+                        <li><strong>Practice Mindfulness:</strong> Focus on the present moment</li>
+                        <li><strong>Physical Activity:</strong> Move your body to release tension</li>
+                        <li><strong>Connect with Others:</strong> Talk to someone you trust</li>
+                        <li><strong>Laugh:</strong> Humor reduces stress hormones</li>
+                    </ul>
+                    
+                    <h4>Long-term Strategies:</h4>
+                    <ul>
+                        <li>Identify and address sources of stress</li>
+                        <li>Set healthy boundaries</li>
+                        <li>Practice time management</li>
+                        <li>Build a support network</li>
+                        <li>Develop healthy coping mechanisms</li>
+                    </ul>
+                `
+            },
+            mindfulness: {
+                title: 'Mindfulness & Meditation',
+                content: `
+                    <h3>Practicing Mindfulness</h3>
+                    <p>Mindfulness is the practice of being present and fully engaged with the current moment without judgment.</p>
+                    
+                    <h4>Benefits:</h4>
+                    <ul>
+                        <li>Reduces stress and anxiety</li>
+                        <li>Improves emotional regulation</li>
+                        <li>Enhances focus and concentration</li>
+                        <li>Promotes better sleep</li>
+                        <li>Increases self-awareness</li>
+                    </ul>
+                    
+                    <h4>Simple Practices:</h4>
+                    <ul>
+                        <li><strong>Breathing Meditation:</strong> Focus on your breath for 5-10 minutes</li>
+                        <li><strong>Body Scan:</strong> Notice sensations throughout your body</li>
+                        <li><strong>Mindful Walking:</strong> Pay attention to each step and sensation</li>
+                        <li><strong>Eating Mindfully:</strong> Savor each bite without distractions</li>
+                        <li><strong>Gratitude Practice:</strong> Notice three good things each day</li>
+                    </ul>
+                `
+            },
+            sleep: {
+                title: 'Sleep Hygiene',
+                content: `
+                    <h3>Improving Sleep Quality</h3>
+                    <p>Quality sleep is essential for mental health. Poor sleep can worsen anxiety, depression, and stress.</p>
+                    
+                    <h4>Sleep Hygiene Tips:</h4>
+                    <ul>
+                        <li><strong>Consistent Schedule:</strong> Go to bed and wake up at the same time daily</li>
+                        <li><strong>Create a Routine:</strong> Develop a relaxing pre-bed ritual</li>
+                        <li><strong>Optimize Environment:</strong> Keep bedroom cool, dark, and quiet</li>
+                        <li><strong>Limit Screen Time:</strong> Avoid blue light 1-2 hours before bed</li>
+                        <li><strong>Watch Caffeine:</strong> Avoid caffeine 6+ hours before sleep</li>
+                        <li><strong>Exercise Regularly:</strong> But not too close to bedtime</li>
+                        <li><strong>Manage Worries:</strong> Write concerns down earlier in the day</li>
+                    </ul>
+                    
+                    <p><strong>Note:</strong> If sleep problems persist, consult a healthcare provider to rule out sleep disorders.</p>
+                `
+            },
+            relationships: {
+                title: 'Healthy Relationships',
+                content: `
+                    <h3>Building Healthy Connections</h3>
+                    <p>Healthy relationships are vital for mental wellbeing. They provide support, reduce stress, and increase happiness.</p>
+                    
+                    <h4>Key Elements:</h4>
+                    <ul>
+                        <li><strong>Communication:</strong> Express needs and feelings clearly and respectfully</li>
+                        <li><strong>Trust:</strong> Build reliability and honesty</li>
+                        <li><strong>Respect:</strong> Value boundaries and differences</li>
+                        <li><strong>Support:</strong> Be there in good times and bad</li>
+                        <li><strong>Independence:</strong> Maintain individual identity</li>
+                    </ul>
+                    
+                    <h4>Setting Boundaries:</h4>
+                    <ul>
+                        <li>Identify your limits and needs</li>
+                        <li>Communicate boundaries clearly</li>
+                        <li>Be consistent in maintaining them</li>
+                        <li>Respect others' boundaries</li>
+                        <li>It's okay to say no</li>
+                    </ul>
+                    
+                    <p><strong>Remember:</strong> Healthy relationships enhance life; unhealthy ones drain energy and wellbeing.</p>
+                `
+            }
+        };
+
+        function openResourceModal(category) {
+            const modal = document.getElementById('resourceModal');
+            const modalBody = document.getElementById('modalBody');
+            const content = resourceContent[category];
+            
+            modalBody.innerHTML = `
+                <h2>${content.title}</h2>
+                ${content.content}
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('resourceModal').classList.remove('active');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('resourceModal').addEventListener('click', (e) => {
+            if (e.target.id === 'resourceModal') {
+                closeModal();
+            }
+        });
+
+        // Close nav menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
